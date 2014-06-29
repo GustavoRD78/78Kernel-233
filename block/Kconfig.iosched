@@ -22,6 +22,12 @@ config IOSCHED_ROW
 	  according to queue priority.
 	  Most suitable for mobile devices.
 
+config IOSCHED_TRIPNDROID
+	tristate "Tripndroid"
+	default y
+	---help---
+	  The Trip N Droid scheduler
+
 config IOSCHED_CFQ
 	tristate "CFQ I/O scheduler"
 	# If BLK_CGROUP is a module, CFQ has to be built as module.
@@ -46,7 +52,7 @@ config CFQ_GROUP_IOSCHED
 
 choice
 	prompt "Default I/O scheduler"
-	default DEFAULT_ROW
+	default DEFAULT_TRIPNDROID
 	help
 	  Select the I/O scheduler which will be used by default for all
 	  block devices.
@@ -57,6 +63,9 @@ choice
         config DEFAULT_ROW
 		bool "ROW" if IOSCHED_ROW=y
 
+	config DEFAULT_TRIPNDROID
+		bool "TRIPNDROID" if IOSCHED_TRIPNDROID=y
+
 	config DEFAULT_CFQ
 		bool "CFQ" if IOSCHED_CFQ=y
 
@@ -66,6 +75,7 @@ config DEFAULT_IOSCHED
 	string
 	default "deadline" if DEFAULT_DEADLINE
 	default "row" if DEFAULT_ROW
+	default "tripndroid" if DEFAULT_TRIPNDROID
 	default "cfq" if DEFAULT_CFQ
 
 endmenu
